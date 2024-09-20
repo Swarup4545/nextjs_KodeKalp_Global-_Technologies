@@ -23,8 +23,12 @@ export default function SignupPage() {
             setEmailSent(true);
             checkVerificationStatus();
 
-        } catch (error: any) {
-            console.log("Signup failed", error.message);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                console.log("Signup failed", error.message);
+            } else {
+                console.log("Signup failed with unknown error");
+            }
         } finally {
             setLoading(false);
         }
@@ -42,9 +46,12 @@ export default function SignupPage() {
                     router.push("/login");
                 }
             }, 5000);
-
         } catch (error: unknown) {
-            console.log("Failed to fetch verification status", error.message);
+            if (error instanceof Error) {
+                console.log("Failed to fetch verification status", error.message);
+            } else {
+                console.log("Failed to fetch verification status with unknown error");
+            }
         }
     };
 

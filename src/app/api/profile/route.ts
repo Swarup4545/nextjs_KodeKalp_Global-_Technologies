@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
         const { email, experience, education, portfolio, linkedin, github, projects,name,address,skills } = reqBody;
 
    
-        let verification = crypto.randomBytes(32).toString('hex');
+        const verification = crypto.randomBytes(32).toString('hex');
         console.log("veri user", verification)
       
         const user = await Resume.create({
