@@ -1,11 +1,17 @@
-"use client";
+"use client"; // Ensure this is at the very top
+
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios'; // Import AxiosError
 
 interface VerifyEmailProps {
   params: {
     token: string;
   };
+}
+
+// Type for the expected error response data
+interface ErrorResponseData {
+  message?: string;
 }
 
 const VerifyEmail = ({ params }: VerifyEmailProps) => {
@@ -15,11 +21,11 @@ const VerifyEmail = ({ params }: VerifyEmailProps) => {
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-       
         const res = await axios.get(`/api/verify-email/${token}`);
         setMessage(res.data.message);
       } catch (err: unknown) {
-        setMessage(err.response?.data?.message || 'Verification failed');
+        const errorMessage = (err as AxiosError<ErrorResponseData>).response?.data?.message || 'Verification failed';
+        setMessage(errorMessage);
       }
     };
 

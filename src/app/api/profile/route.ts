@@ -1,22 +1,18 @@
 import crypto from 'crypto';
 import { connect } from '@/dbConfig/dbConfig';
 import Resume from '@/models/resumeModel';
-import { NextRequest, NextResponse } from "../../../../node_modules/next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
-
     await connect();
 
     try {
-      
         const reqBody = await req.json();
-      
-        const { email, experience, education, portfolio, linkedin, github, projects,name,address,skills } = reqBody;
+        const { email, experience, education, portfolio, linkedin, github, projects, name, address, skills } = reqBody;
 
-   
         const verification = crypto.randomBytes(32).toString('hex');
-        console.log("veri user", verification)
-      
+        console.log("veri user", verification);
+
         const user = await Resume.create({
             name,
             address,
@@ -29,17 +25,20 @@ export async function POST(req: NextRequest) {
             github,
             projects,
             resumeGenerated: true,
-         
         });
-        const savedUser = await user.save()
+
+        const savedUser = await user.save();
         console.log("saver user", savedUser);
 
-
         return NextResponse.json({
-            message: 'user Details', data: savedUser
+            message: 'User details', data: savedUser
         }, { status: 201 });
-    } catch (error: unknown) {
+    } catch (error) {
         console.error('Error during signup:', error);
-        return NextResponse.json({ message: 'Server error', error: error.message }, { status: 500 });
+
+        
+        const errorMessage = (error as { message?: string }).message || 'Server error';
+        
+        return NextResponse.json({ message: errorMessage }, { status: 500 });
     }
 }
