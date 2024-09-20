@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
   } catch (error: unknown) {
     console.error('Error during signup:', error);
     
-    // Use type assertion to handle the error
+    
     const errorMessage = (error as Error).message || 'Unknown error occurred';
   
     return NextResponse.json({ message: 'Server error', error: errorMessage }, { status: 500 });
