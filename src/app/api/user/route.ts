@@ -4,7 +4,7 @@ import { connect } from '@/dbConfig/dbConfig';
 
 connect();
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   try {
     const reqBody = await req.json();
     const { email} = reqBody;
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 
     return NextResponse.json({ message: 'Users retrieved successfully!', success: true, data: users }, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error fetching users:", error);
     return NextResponse.json({ message: 'Failed to retrieve users', success: false }, { status: 500 });
   }

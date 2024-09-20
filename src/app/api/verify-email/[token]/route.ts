@@ -20,9 +20,9 @@ export async function GET(req: NextRequest, { params }: { params: { token: strin
     user.verified = true; 
       const updatedUser = await user.save();
       console.log("User verified successfully:", updatedUser);
-      return NextResponse.json({ message: 'Email verified successfully 1!', success: true, user: updatedUser }, { status: 200 });
+      return NextResponse.json({ message: 'Email verified successfully!', success: true, user: updatedUser }, { status: 200 });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Verification failed:", error);
     return NextResponse.json({ message: 'Verification failed', success: false }, { status: 500 });
   }

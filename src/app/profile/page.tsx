@@ -43,12 +43,12 @@ export default function Profile() {
       const response = await axios.post('/api/profile', formData);
 
       if (response.status === 201) {
-        // Redirect to resume generation page
+      
         router.push(`/resume?email=${formData.email}`);
       } else {
         alert('Profile update failed: ' + response.data.message);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error submitting form:', error);
       if (axios.isAxiosError(error) && error.response) {
         alert('Error: ' + error.response.data.message);

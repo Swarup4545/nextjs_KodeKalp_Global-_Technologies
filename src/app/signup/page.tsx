@@ -9,7 +9,7 @@ export default function SignupPage() {
         email: "",
         password: "",
     });
-    const [userData, setUserData] = useState(null);
+
     const [buttonDisabled, setButtonDisabled] = useState(true);
     const [loading, setLoading] = useState(false);
     const [emailSent, setEmailSent] = useState(false);
@@ -35,7 +35,6 @@ export default function SignupPage() {
             const intervalId = setInterval(async () => {
                 const userRes = await axios.post("/api/user", { email: user.email });
                 const isVerified = userRes.data.data.verified;
-                setUserData(userRes.data.data);
 
                 if (isVerified) {
                     clearInterval(intervalId);
@@ -44,7 +43,7 @@ export default function SignupPage() {
                 }
             }, 5000);
 
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.log("Failed to fetch verification status", error.message);
         }
     };
@@ -61,9 +60,9 @@ export default function SignupPage() {
         <>
             <div className="bg-slate-400 h-screen">
                 <h1 className="text-center text-4xl font-bold pt-20 pb-20">Signup</h1>
-                <div className="bg-white text-center">
+                <div className="bg-slate-400 text-center">
                     {emailSent && !verified ? (
-                        <p className="rounded m-2 bg-green-600 p-2">We've sent you an email verification link. Please verify your email.</p>
+                        <p className="rounded m-2 bg-green-600 p-2">We&apos;ve sent you an email verification link. Please verify your email.</p>
                     ) : null}
                 </div>
                 <div className="h-screen flex justify-center">

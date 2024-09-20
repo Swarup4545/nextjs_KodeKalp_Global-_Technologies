@@ -1,29 +1,32 @@
-"use client"
+"use client";
 import { useEffect, useState } from 'react';
-import { useRouter } from '../../../../node_modules/next/navigation';
 import axios from 'axios';
 
-const VerifyEmail = ({params}:any) => {
-  const [message, setMessage] = useState('');
-  const router = useRouter();
-  const  token  = params.token
+interface VerifyEmailProps {
+  params: {
+    token: string;
+  };
+}
+
+const VerifyEmail = ({ params }: VerifyEmailProps) => {
+  const [message, setMessage] = useState<string>('');
+  const { token } = params;
 
   useEffect(() => {
+    const verifyEmail = async () => {
+      try {
+       
+        const res = await axios.get(`/api/verify-email/${token}`);
+        setMessage(res.data.message);
+      } catch (err: unknown) {
+        setMessage(err.response?.data?.message || 'Verification failed');
+      }
+    };
+
     if (token) {
       verifyEmail();
     }
   }, [token]);
-
-  const verifyEmail = async () => {
-    try {
-      // Make sure to call the correct endpoint
-      const res = await axios.get(`/api/verify-email/${token}`);
-      setMessage(res.data.message);
-
-    } catch (err: any) {
-      setMessage(err.response?.data?.message || 'Verification failed');
-    }
-  };
 
   return (
     <div className="min-h-screen flex items-center justify-center">

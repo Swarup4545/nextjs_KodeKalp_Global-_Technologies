@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, 12);
 
    
-    let verification = crypto.randomBytes(32).toString('hex');
+    const verification = crypto.randomBytes(32).toString('hex');
     console.log("veri user",verification)
 
     const user = await User.create({
@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       message: 'Signup successful! Check your email for verification.',
     }, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error during signup:', error);
     return NextResponse.json({ message: 'Server error', error: error.message }, { status: 500 });
   }

@@ -21,7 +21,7 @@ const Login: React.FC = () => {
       const response = await axios.post("/api/login", user);
       console.log("Login successful:", response.data.token);
       router.push("/profile");
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         setError(error.response.data.message);
       } else {
